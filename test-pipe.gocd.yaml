@@ -1,0 +1,30 @@
+format_version: 10
+pipelines:
+  test-pipe:
+    group: My-Pipelines
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    materials:
+      git-ce3d146:
+        git: https://github.com/MioAtSwivel/godc-test
+        shallow_clone: false
+        auto_update: true
+        branch: main
+    stages:
+    - run-index:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          run-index:
+            timeout: 0
+            tasks:
+            - exec:
+                arguments:
+                - index.js
+                command: node
+                run_if: passed
